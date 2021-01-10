@@ -27,7 +27,13 @@ layout: default
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    {{ content }}
+    {%- if site.show_excerpts -%}
+      {%- assign excerpt = page.excerpt | strip_html -%}
+      {%- assign excerpt_separator = "<p>" | append: site.excerpt_separator | append: "</p>" -%}
+      {{ page.content | remove_first: excerpt | remove: excerpt_separator }}
+    {%- else -%}
+      {{ content }}
+    {%- endif -%}
   </div>
 
   {%- if site.disqus.shortname -%}
